@@ -61,6 +61,8 @@ summary2 = corners_by_game.merge(teams_df[["name", "teamId"]], how = "left", on 
 
 #%% Two Sided z-test
 from statsmodels.stats.weightstats import ztest
+# The basis for using a z-test in this example is the assumption 
+# that the sample distribution is approximately normal.
 
 # H0: Man City takes 8 corners per game
 # Ha: Man City does not take 8 corners per game
@@ -82,6 +84,8 @@ else:
     print("Test Statistics: ", t, " inside: +-1.650")
 
 #%% One-sided z-test
+# The basis for using a z-test in this example is the assumption 
+# that the sample distribution is approximately normal.
 
 # H0: Man City do not take more than 6 corners per game
 # Ha: Man City takes more than 6 corners per game
@@ -96,6 +100,7 @@ else:
     print("Test Statistics: ", t, " below: +1.650")
 
 #%% One-sample two-sided t-test
+# NO IDEA WHY A T-TEST IS USED, A Z-TEST WOULD BE MORE SUITABLE
 mean = summary["counts"].mean()
 std = summary["counts"].std()
 
@@ -115,6 +120,10 @@ else:
 
 #%% One-sample one-sided t-test
 from scipy.stats import ttest_1samp
+
+# H0: Arsenal takes the same nr of corners as league avarage
+# Ha: Arsenal takes more corners than league avarage
+
 arsenal_corners = summary.loc[summary["name"] == "Arsenal"]["counts"].iloc[0]
 t, pvalue = ttest_1samp(summary["counts"], arsenal_corners, alternative='less')
 
